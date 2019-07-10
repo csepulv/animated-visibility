@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import superb from "superb";
 import { Animated } from "react-animated-css";
 import "./App.css";
@@ -15,32 +15,52 @@ const colors = [
   "#4D7EA8"
 ];
 
+class AnimatedVisibility extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { noDisplay: false, visible: this.props.visible };
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (!nextProps.visible) {
+      this.setState({ visible: false });
+      setTimeout(() => this.setState({ noDisplay: true }), 650);
+    }
+  }
+
+  render() {
+    return (
+      <Animated
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+        isVisible={this.state.visible}
+        style={this.state.noDisplay ? { display: "none" } : null}
+      >
+        {this.props.children}
+      </Animated>
+    );
+  }
+}
+
 function Box({ word }) {
   const color = colors[Math.floor(Math.random() * 9)];
   const [visible, setVisible] = useState(true);
-  const [fading, setFading] = useState(false);
 
   function hideMe() {
-    setFading(true);
-    setTimeout(() => setVisible(false), 650);
+    setVisible(false);
   }
 
   let style = { borderColor: color, backgroundColor: color };
 
   return (
-    <Animated
-      animationIn="zoomIn"
-      animationOut="zoomOut"
-      isVisible={!fading}
-      style={visible ? null : { display: "none" }}
-    >
+    <AnimatedVisibility visible={visible}>
       <div className="box" style={style}>
         <div className="center">{word}</div>
         <button className="button bottom-corner" onClick={hideMe}>
           <i className="center far fa-eye fa-lg" />
         </button>
       </div>
-    </Animated>
+    </AnimatedVisibility>
   );
 }
 
