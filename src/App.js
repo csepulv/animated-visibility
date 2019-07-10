@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useState} from "react";
 import superb from "superb";
-import { Animated } from "react-animated-css";
+import AnimatedVisibility from './AnimatedVisibility'
 import "./App.css";
 
 const colors = [
@@ -15,25 +15,6 @@ const colors = [
   "#4D7EA8"
 ];
 
-function AnimatedVisibility({ visible, children }) {
-  const [noDisplay, setNoDisplay] = useState(!visible);
-  useEffect(() => {
-    if (!visible) setTimeout(() => setNoDisplay(true), 650);
-    else setNoDisplay(false);
-  }, [visible]);
-
-  const style = noDisplay ? { display: "none" } : null;
-  return (
-    <Animated
-      animationIn="zoomIn"
-      animationOut="zoomOut"
-      isVisible={visible}
-      style={style}
-    >
-      {children}
-    </Animated>
-  );
-}
 function Box({ word }) {
   const color = colors[Math.floor(Math.random() * 9)];
   const [visible, setVisible] = useState(true);
@@ -45,7 +26,11 @@ function Box({ word }) {
   let style = { borderColor: color, backgroundColor: color };
 
   return (
-    <AnimatedVisibility visible={visible}>
+    <AnimatedVisibility
+      visible={visible}
+      animationIn="zoomIn"
+      animationOut="zoomOut"
+    >
       <div className="box" style={style}>
         <div className="center">{word}</div>
         <button className="button bottom-corner" onClick={hideMe}>
