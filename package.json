@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
+    "react-animated-css": "^1.2.1",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "superb": "^4.0.0"
