@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useEffect, useState } from "react";
 import superb from "superb";
 import { Animated } from "react-animated-css";
 import "./App.css";
@@ -15,33 +15,25 @@ const colors = [
   "#4D7EA8"
 ];
 
-class AnimatedVisibility extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { noDisplay: false, visible: this.props.visible };
-  }
+function AnimatedVisibility({ visible, children }) {
+  const [noDisplay, setNoDisplay] = useState(!visible);
+  useEffect(() => {
+    if (!visible) setTimeout(() => setNoDisplay(true), 650);
+    else setNoDisplay(false);
+  }, [visible]);
 
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (!nextProps.visible) {
-      this.setState({ visible: false });
-      setTimeout(() => this.setState({ noDisplay: true }), 650);
-    }
-  }
-
-  render() {
-    return (
-      <Animated
-        animationIn="zoomIn"
-        animationOut="zoomOut"
-        isVisible={this.state.visible}
-        style={this.state.noDisplay ? { display: "none" } : null}
-      >
-        {this.props.children}
-      </Animated>
-    );
-  }
+  const style = noDisplay ? { display: "none" } : null;
+  return (
+    <Animated
+      animationIn="zoomIn"
+      animationOut="zoomOut"
+      isVisible={visible}
+      style={style}
+    >
+      {children}
+    </Animated>
+  );
 }
-
 function Box({ word }) {
   const color = colors[Math.floor(Math.random() * 9)];
   const [visible, setVisible] = useState(true);
