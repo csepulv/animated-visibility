@@ -1,58 +1,88 @@
-import React, {useState} from "react";
-import superb from "superb";
-import AnimatedVisibility from './AnimatedVisibility'
+import React, { Fragment, useState } from "react";
+import AnimatedVisibility from "./AnimatedVisibility";
+import Boxes from "./Boxes";
 import "./App.css";
 
-const colors = [
-  "#6690FF",
-  "#6CD566",
-  "#50E5FF",
-  "#FFDC75",
-  "#FF7C83",
-  "#FF702D",
-  "#FFAA42",
-  "#7F7B82",
-  "#4D7EA8"
-];
+function ToggleButton({ label, isOpen, onClick }) {
+  const icon = isOpen ? (
+    <i className="fas fa-toggle-off fa-lg" />
+  ) : (
+    <i className="fas fa-toggle-on fa-lg" />
+  );
+  return (
+    <button className="toggle" onClick={onClick}>
+      {label} {icon}
+    </button>
+  );
+}
 
-function Box({ word }) {
-  const color = colors[Math.floor(Math.random() * 9)];
-  const [visible, setVisible] = useState(true);
-
-  function hideMe() {
-    setVisible(false);
-  }
-
-  let style = { borderColor: color, backgroundColor: color };
-
+function Navbar({ open }) {
   return (
     <AnimatedVisibility
-      visible={visible}
-      animationIn="zoomIn"
-      animationOut="zoomOut"
+      visible={open}
+      animationIn="slideInDown"
+      animationOut="slideOutUp"
+      animationInDuration={300}
+      animationOutDuration={600}
     >
-      <div className="box" style={style}>
-        <div className="center">{word}</div>
-        <button className="button bottom-corner" onClick={hideMe}>
-          <i className="center far fa-eye fa-lg" />
-        </button>
+      <nav className="bar nav">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </nav>
+    </AnimatedVisibility>
+  );
+}
+
+function Sidebar({ open }) {
+  return (
+    <AnimatedVisibility
+      visible={open}
+      animationIn="slideInLeft"
+      animationOut="slideOutLeft"
+      animationInDuration={500}
+      animationOutDuration={600}
+      className="on-top"
+    >
+      <div className="sidebar">
+        <ul>
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+        </ul>
       </div>
     </AnimatedVisibility>
   );
 }
 
 function App() {
-  const words = [];
-  for (let i = 0; i < 12; i++) {
-    words[i] = superb.random();
+  const [navIsOpen, setNavOpen] = useState(false);
+  const [sidebarIsOpen, setSidebarOpen] = useState(false);
+
+  function toggleNav() {
+    setNavOpen(!navIsOpen);
+  }
+
+  function toggleSidebar() {
+    setSidebarOpen(!sidebarIsOpen);
   }
 
   return (
-    <div className="frame">
-      {words.map(word => (
-        <Box key={word} word={word} />
-      ))}
-    </div>
+    <Fragment>
+      <main className="main">
+        <header className="bar header">
+          <ToggleButton
+            label="Sidebar"
+            isOpen={sidebarIsOpen}
+            onClick={toggleSidebar}
+          />
+          <ToggleButton label="Navbar" isOpen={navIsOpen} onClick={toggleNav} />
+        </header>
+        <Navbar open={navIsOpen} />
+        <Boxes />
+      </main>
+      <Sidebar open={sidebarIsOpen} />
+    </Fragment>
   );
 }
 

@@ -1,13 +1,55 @@
+.main {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
 
-.frame{
-  margin: auto;
+.bar {
+  background: #fff;
+  flex: none;
+  border-bottom: 1px solid #424242;
+  display: flex;
+  padding: 16px;
+}
+
+.header {
+  z-index: 1;
+  justify-content: flex-end;
+}
+
+.nav {
+  justify-content: space-around;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ccc;
+  padding-top: 100px;
+  border-right: 1px solid #424242;
+}
+
+.on-top{
+  z-index: 9999;
+  height: 100vh;
+  width: 250px;
+  position: absolute;
+}
+
+.boxes {
+  margin: 48px auto;
   width: 600px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.box{
+.box {
   position: relative;
   margin: 16px;
   height: 150px;
@@ -16,36 +58,41 @@
   border: 1px solid;
 }
 
-.center{
+.center {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-.bottom-corner{
+.bottom-corner {
   position: absolute;
   left: 75%;
   top: 75%;
 }
 
-
-
-.button {
+button {
   width: 30px;
   height: 30px;
   background-color: transparent;
 
-  border-radius:8px;
-  border:2px solid #fff;
-  cursor:pointer;
-  color:#fff;
-  text-decoration:none;
+  border-radius: 8px;
+  border: 2px solid #fff;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
 }
-.button:hover {
-  background-color:#f6f6f6;
-  color:#424242;
+button:hover {
+  background-color: #f6f6f6;
+  color: #424242;
 }
-.button:active {
-  background-color:#424242;
+button:active {
+  background-color: #424242;
+}
+
+.toggle {
+  color: #424242;
+  margin: 0 16px;
+  border-color: #424242;
+  width: auto;
 }
