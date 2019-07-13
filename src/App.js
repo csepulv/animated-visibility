@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from "react";
-import AnimatedVisibility from "./AnimatedVisibility";
+import React, {Fragment, useState} from "react";
+import {makeAnimationSlideLeft, makeAnimationSlideUpDown} from "./AnimatedVisibility";
 import Boxes from "./Boxes";
 import "./App.css";
 
@@ -16,44 +16,30 @@ function ToggleButton({ label, isOpen, onClick }) {
   );
 }
 
-function Navbar({ open }) {
+function Navbar() {
   return (
-    <AnimatedVisibility
-      visible={open}
-      animationIn="slideInDown"
-      animationOut="slideOutUp"
-      animationInDuration={300}
-      animationOutDuration={600}
-    >
-      <nav className="bar nav">
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
-      </nav>
-    </AnimatedVisibility>
+    <nav className="bar nav">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </nav>
   );
 }
 
-function Sidebar({ open }) {
+function Sidebar() {
   return (
-    <AnimatedVisibility
-      visible={open}
-      animationIn="slideInLeft"
-      animationOut="slideOutLeft"
-      animationInDuration={500}
-      animationOutDuration={600}
-      className="on-top"
-    >
-      <div className="sidebar">
-        <ul>
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
-        </ul>
-      </div>
-    </AnimatedVisibility>
+    <div className="sidebar">
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ul>
+    </div>
   );
 }
+
+const AnimatedSidebar = makeAnimationSlideLeft(Sidebar);
+const AnimatedNavbar = makeAnimationSlideUpDown(Navbar);
 
 function App() {
   const [navIsOpen, setNavOpen] = useState(false);
@@ -78,10 +64,10 @@ function App() {
           />
           <ToggleButton label="Navbar" isOpen={navIsOpen} onClick={toggleNav} />
         </header>
-        <Navbar open={navIsOpen} />
+          <AnimatedNavbar open={navIsOpen} />
         <Boxes />
       </main>
-      <Sidebar open={sidebarIsOpen} />
+      <AnimatedSidebar open={sidebarIsOpen} className="on-top"/>
     </Fragment>
   );
 }
